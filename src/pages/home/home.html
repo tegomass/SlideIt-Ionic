@@ -12,15 +12,25 @@
   </p>
   <ion-item>
     <ion-label color="primary" stacked>Username</ion-label>
-    <ion-input id="username" name="username" type="username" placeholder="username" [(ngModel)]="username" (keyup)="store($event)" required></ion-input>
+    <ion-input id="username" type="username" placeholder="Username" [(ngModel)]="username" (keyup)="store($event);onType($event)" required></ion-input>
   </ion-item>
   <ion-item>
     <ion-label color="primary" stacked>Password</ion-label>
-    <ion-input name="password" type="password" placeholder="Password" [(ngModel)]="password" (keyup)="store($event)" required></ion-input>
+    <ion-input id="password" type="password" placeholder="Password" [(ngModel)]="password" (keyup)="store($event);onType($event)" required></ion-input>
   </ion-item>
   <br>
-  <button (click)="onSubmit()" [disabled]="disableSubmitButton" ion-button round>Slide it</button>
-  <p *ngIf="loading" >loading...</p>
-  <p *ngIf="message.length" class="{{messageColor}}">{{message}}</p>
+  <ion-list>
+    <ion-list-header>
+      Timer
+      <ion-badge item-end>{{timer}} minutes</ion-badge>
+    </ion-list-header>
+    <ion-item>
+      <ion-range [(ngModel)]="timer" max="60">
+        <ion-icon range-left small name="ios-clock-outline"></ion-icon>
+        <ion-icon range-right name="ios-clock-outline"></ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+  <button (click)="checkCredentials()" [disabled]="disableSubmitButton" ion-button round>Slide it</button>
 
 </ion-content>
