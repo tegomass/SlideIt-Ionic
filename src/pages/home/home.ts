@@ -8,6 +8,7 @@ import { LoadingController } from 'ionic-angular';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
+import { DataProvider } from '../../providers/data/data';
 
 @Component({
   selector: 'page-home',
@@ -21,6 +22,7 @@ export class HomePage implements OnInit {
   password = '';
   disableSubmitButton = true;
   timer = 0;
+  message:string;
 
   onType() {
     this.disableSubmitButton = this.username === '' || this.password === '';
@@ -28,7 +30,7 @@ export class HomePage implements OnInit {
   }
 
   postToheroku(timer): Observable<any> {
-    const url = `${this.herokuUrl}/users?user=${this.username}&password=${this.password}&timer=${timer}`;
+    const url = `${this.herokuUrl}/users?user=${this.username}&password=${this.password}&timer=${timer}&token=${this.message}`;
     return this.http.get(url);
   }
 
@@ -64,7 +66,8 @@ export class HomePage implements OnInit {
   }
 
 
-  constructor(private alertCtrl: AlertController, public loadingCtrl: LoadingController, private http: HttpClient, private storage: Storage) {
+  constructor(private alertCtrl: AlertController, public loadingCtrl: LoadingController, private http: HttpClient,
+              private storage: Storage, private data: DataProvider) {
   }
 
   presentLoading() {
@@ -150,6 +153,8 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     //retrieve local data from Storage
+    this.data.currentMessage.subscribe(message => this.message = message);
+
     Promise.all([ this.storage.get('username'), this.storage.get('password') ]).then(values => {
       this.username = values[ 0 ];
       this.password = values[ 1 ];

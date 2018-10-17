@@ -7,8 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
 
+import { Firebase } from '@ionic-native/firebase';
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { DataProvider } from '../providers/data/data';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,9 @@ import { HomePage } from '../pages/home/home';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    Firebase,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DataProvider
   ]
 })
 export class AppModule {}
